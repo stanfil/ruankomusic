@@ -1,0 +1,19 @@
+url: https://u.y.qq.com/cgi-bin/musicu.fcg?-=recom6204401673674491&g_tk=2070967482&loginUin=352070351&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22comm%22%3A%7B%22ct%22%3A24%7D%2C%22new_song%22%3A%7B%22module%22%3A%22QQMusic.MusichallServer%22%2C%22method%22%3A%22GetNewSong%22%2C%22param%22%3A%7B%22type%22%3A1%7D%7D%7D
+GET 
+专辑：new_song/data/song_list[ i ]/album/name 
+发行时间：new_song/data/song_list[ i ]/album/time_public
+id：new_song/data/song_list[ i ]/id
+mid：new_song/data/song_list[ i ]/mid
+歌名：new_song/data/song_list[ i ]/name
+歌手：new_song/data/song_list[ i ]/singer[ i ]/name
+类型：
+时长：new_song/data/song_list[ i ]/interval
+图片url：https://y.gtimg.cn/music/photo_new/T002R300x300M000003UiT861P5Thb.jpg?max_age=2592000
+
+
+url：https://y.qq.com/n/yqq/song/002Xbt294Y5MIt.html    [songmid]
+图片url：https://y.gtimg.cn/music/photo_new/T002R300x300M000003UiT861P5Thb.jpg?max_age=2592000
+
+
+url: https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_yqq.fcg?nobase64=1&musicid=226152252&-=jsonp1&g_tk=2070967482&loginUin=352070351&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0
+歌词String
