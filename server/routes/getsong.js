@@ -9,7 +9,7 @@ router.get('/getSong', (req, res) => {
     { title: { $regex: `.*${label}.*`}},
     { album: { $regex: `.*${label}.*`}},
     { singers: { $regex: `.*${label}.*`}}
-  ]},"-id -lyric", (err, songs) => {
+  ]},"-id", (err, songs) => {
     if(err) return console.log(err)
     return res.json({
       isSuccess: true,
