@@ -1,8 +1,10 @@
 let express = require('express')
 let app = express()
+let mongoose = require('mongoose')
 let router = express.Router()
 let User = require('../models/user')
 let List = require('../models/list')
+let Song = require('../models/song')
 
 router.post('/createlist', (req, res) => {
   let {title, creator, creatorem, disc} = req.body
@@ -12,7 +14,8 @@ router.post('/createlist', (req, res) => {
     creatorem,
     collectnum: 0,
     songs: [],
-    disc
+    disc,
+    img_url: '',
   })
   list.save((err, list) => {
     if(err) return console.log(err)
@@ -73,5 +76,66 @@ router.post('/deletelist', (req, res)=>{
      })
    })
 })
+
+router.get("/likelist", (req, res)=> {
+  let email = req.query.email
+  User.findOne({email},(err, user)=> {
+    if(err) return console.log(err)
+    if(!user) return console.log(err)
+    let _id = mongoose.Types.ObjectId(user.likeSL)
+    console.log(_id)
+    List.findOne({_id},(err, list) => {
+      if(err) return console.log(err)
+      // console.log(list.songs)
+      let all = list.songs.map((item)=>({
+        mid: item
+      }))
+      if(all.length===0){
+        return res.json([])
+      }
+      Song.find({$or: all}, (err, songs)=> {
+        if(err) return console.log(err)
+        return res.json(songs)
+      })
+    })
+  })
+})
+
+router.get('/collectlists', (req, res) => {
+  let email = req.query.email
+  User.findOne({email}, (err, user) => {
+    if(err) return console.log(err)
+    if(!user) return console.log(err)
+    let all = user.collectSLs.map(item => ({
+      _id: item
+    }))
+    if(all.length===0){
+      return res.json([])
+    }
+    List.find({$or: all}, (err, lists)=> {
+      if(err) return console.log(err)
+      return res.json(lists)
+    })
+  })
+})
+
+router.get('/createlists', (req, res) => {
+  let email = req.query.email
+  User.findOne({email}, (err, user) => {
+    if(err) return console.log(err)
+    if(!user) return console.log(err)
+    let all = user.createSLs.map(item => ({
+      _id: item
+    }))
+    if(all.length===0){
+      return res.json([])
+    }
+    List.find({$or: all}, (err, lists)=> {
+      if(err) return console.log(err)
+      return res.json(lists)
+    })
+  })
+})
+
 
 module.exports = router

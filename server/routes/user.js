@@ -12,7 +12,8 @@ router.post('/signup', (req, res) => {
     creatorem: email,
     collectnum: 0,
     songs: [],
-    disc: `快来看看 ${nickname} 喜欢哪些歌曲吧~`
+    disc: `快来看看 ${nickname} 喜欢哪些歌曲吧~`,
+    img_url: '',
   })
   list.save((err, list) => {
     if(err) {
@@ -69,10 +70,39 @@ router.post('/changeinfo', (req, res) => {
     if(err) return console.log(err)
     if(!user) return res.status(403).send('用户不存在')
     user.nickname = nickname
-    user.password = password
+    if(password!==''){
+      user.password = password
+    }
     user.save(err => {
       if(err) return console.log(err)
       return res.send('修改成功')
+    })
+  })
+})
+
+router.post('/likesong', (req, res)=> {
+  let {email, mid} = req.body
+  User.findOne({email}, (err, user)=>{
+    if(err) return console.log(err)
+    List.findOne({_id: user.likeSL}, (err, list)=>{
+      if(err) console.log(err)
+      list.songs.push(mid)
+      list.save(err => {
+        if(err) return console.log(err)
+        return res.send("成功添加喜欢歌曲")
+      })
+    })
+  })
+})
+
+router.post('/collectlist', (req, res)=>{
+  let {email, _id} = req.body
+  User.findOne({email}, (err, user)=>{
+    if(err) return console.log(err)
+    user.collectSLs.push(_id)
+    user.save((err, user)=>{
+      if(err) return console.log(err)
+      return res.send("成功收藏歌单")
     })
   })
 })

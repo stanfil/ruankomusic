@@ -8,6 +8,7 @@ let ListSchema = new Schema(
     collectnum: Number,
     songs: Array,
     disc: String,
+    img_url: String,
   },
   {
     timestamps: true
