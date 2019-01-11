@@ -36,6 +36,7 @@ router.get('/search', (req, res) => {
 router.get('/bytype', (req, res) => {
   let { type, page } = req.query
   type = (type==='RandB')?'R&B':type
+  type = (type==='Rap')?' Rap/Hip Hop':type
   page = parseInt(page)
   Song.find({type},
   "-id -lyric",
@@ -51,7 +52,7 @@ router.get('/bytype', (req, res) => {
     Song.count({type}, (err, count) => {
       if(err) return console.log(err)
       return res.json({
-        all: count,
+        all: (count>50?50:count),
         page: page,
         songs,
       })
@@ -97,6 +98,7 @@ router.get('/boardup', (req, res)=> {
     return res.json(songs)
   })
 })
+
 router.post('/collect', (req, res) => {
   let {mid, _id} = req.body
   List.findOne({_id}, (err, list) => {
