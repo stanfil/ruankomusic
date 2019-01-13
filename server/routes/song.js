@@ -116,4 +116,23 @@ router.post('/collect', (req, res) => {
     })
   })
 })
+
+router.get('/onesong', (req, res) => {
+  let mid = req.query.mid
+  Song.findOne({mid}, (err, song)=> {
+    if(err) return console.log(err)
+    if(!song) return console.log("song not exist")
+    return res.json(song)
+  })
+})
+
+router.get('/file',(req, res)=>{
+  let mid = req.query.mid
+  res.setHeader("content-type","application/OCTET-STREAM;charset=UTF-8");
+  res.setHeader("Content-Disposition",`attachment;filename=${mid}.m4a`)
+  res.sendFile(`E:\\Songs\\${mid}.m4a`, err => {
+    if(err) return console.log(err)
+  })
+})
+
 module.exports = router

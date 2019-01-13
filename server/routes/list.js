@@ -49,6 +49,28 @@ router.get('/getlist', (req, res) => {
   })
 })
 
+router.get('/onelist', (req, res) => {
+  let _id = req.query._id
+  List.findOne({_id}, (err, list)=> {
+    if(err) return console.log(err)
+    let all = list.songs.map((item)=>({
+      mid: item
+    }))
+    if(all.length===0){
+      return res.json(list)
+    }
+    Song.find({$or: all},"-id -lyric", (err, songs)=> {
+      if(err) return console.log(err)
+      // console.log(list)
+
+      return res.json({
+        ...(list._doc),
+        songs
+      })
+    })
+  })
+})
+
 router.post('/updatelist', (req, res) => {
   let { _id, title, disc } = req.body
   List.findOne({_id}, (err, list) => {
