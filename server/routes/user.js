@@ -107,4 +107,21 @@ router.post('/collectlist', (req, res)=>{
   })
 })
 
+router.get('/getcreatelists', (req, res)=> {
+  let {email}= req.query
+  User.findOne({email},(err, user)=>{
+      if(err) return console.log(err)
+      if(!user) return res.json([])
+      let all = user.createSLs.map(item => ({
+        _id: item
+      }))
+      if(all.length===0){
+        return res.json([])
+      }
+      List.find({$or: all}, (err, lists)=> {
+        if(err) return console.log(err)
+        return res.json(lists)
+      })
+  })
+})
 module.exports = router

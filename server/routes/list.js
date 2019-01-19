@@ -159,5 +159,19 @@ router.get('/createlists', (req, res) => {
   })
 })
 
+router.post("/playlist", (req, res)=>{
+  let playlist = req.body.playlist
+  let all = playlist.map(item => ({
+    mid: item
+  }))
+  if(all.length===0){
+    return res.json([])
+  }
+  Song.find({$or: all}, (err, songs)=> {
+    if(err) return console.log(err)
+    return res.json(songs)
+  })
+})
+
 
 module.exports = router
